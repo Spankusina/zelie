@@ -1,0 +1,117 @@
+body, html { 
+    width: 100%;
+    height: 100%;
+    font-family: 'Fira Sans', sans-serif;
+}
+
+button{
+    margin: 0 10px 0 10px;
+    width: 140px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+button:hover{
+    background: rgb(212, 212, 212);
+}
+
+button:active{
+    background: rgb(214, 94, 94);
+}
+
+button:disabled{
+    background: rgb(153, 153, 153);
+}
+
+.container{
+    position: relative;
+    width: 100%;
+    min-height: 100%;
+    background: rgb(248, 240, 184);
+}
+
+.control{
+    height: 100px;
+    width: 100%;
+    background: rgba(68, 34, 34);
+    text-align: center;
+}
+
+.forAddPlayer{
+    display: block;
+}
+
+.inputNamePlayer{
+    height: 20px;
+    width: 140px;
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    margin: 33px 10px 0 0;
+}
+
+.players{
+    height: 100px;
+    width: 98%;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-left: 1%;
+}
+
+#pl1{
+    background: rgba(255, 106, 106, 0.3)
+}
+
+#pl2{
+    background: rgba(123, 255, 106, 0.3)
+}
+
+#pl3{
+    background: rgba(106, 128, 255, 0.3)
+}
+
+#pl4{
+    background: rgba(255, 253, 106, 0.3)
+}
+
+.forNamePlayers{
+    width: 150px;
+    height: 100%;
+    border-right: 2px solid black;
+    text-align: center;
+    float: left;
+    margin-right: 20px;
+}
+
+.namePlayers{
+    font-weight: bold;
+    padding: 20px 0 0 0;
+}
+
+.totalScore{
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+    margin-top: 20px;
+}
+
+#pl1 .namePlayers{
+    color: red;
+}
+
+#pl2 .namePlayers{
+    color: green;
+}
+
+#pl3 .namePlayers{
+    color: blue;
+}
+
+#pl4 .namePlayers{
+    color: rgb(214, 200, 4);
+}
+
+.scoreBoard{
+    padding: 10px 10px 0 0;
+    line-height: 1.5;
+}
