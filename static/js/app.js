@@ -1,6 +1,7 @@
 const addPlayerButton = document.querySelector('#addPlayer')
 const startGameButton = document.querySelector('#startGame')
 const namePlayerInput = document.querySelector('.inputNamePlayer')
+const container = document.querySelector('.container')
 let listPlayer = []
 
 addPlayerButton.onclick = () => {
@@ -15,8 +16,18 @@ function addPlayer(name) {
     }
 
     listPlayer.push(name)
+    let playerScoreBoard = `
+        <div class="players" id="pl${listPlayer.length}">
+            <div class="forNamePlayers">
+                <p class="namePlayers">${name}</p>
+                <p class="totalScore">0</p>
+            </div>
+            <p class="scoreBoard"></p>
+        </div>
+        `
+
+    container.insertAdjacentHTML('beforeend', playerScoreBoard)
     checkStatusButtons()
-    console.log(listPlayer)
 }
 
 function checkStatusButtons() {
