@@ -5,7 +5,7 @@ body, html {
 }
 
 button{
-    margin: 0 10px 0 10px;
+    margin: 20px 10px 20px 10px;
     width: 140px;
     height: 40px;
     border-radius: 10px;
@@ -31,14 +31,15 @@ button:disabled{
 }
 
 .control{
-    height: 100px;
+    min-height: 100px;
     width: 100%;
-    background: rgba(68, 34, 34);
+    background: rgb(68, 34, 34);
     text-align: center;
 }
 
 .forAddPlayer{
-    display: block;
+    display: none;
+    /* display: block; */
 }
 
 .inputNamePlayer{
@@ -47,6 +48,41 @@ button:disabled{
     border-radius: 10px;
     padding: 5px 10px 5px 10px;
     margin: 33px 10px 0 0;
+}
+
+.forInputScore{
+    color: rgb(127, 255, 176);
+}
+
+.forInputScore>h2{
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 0 15px 0;
+}
+
+.forInputScore>input{
+    visibility: hidden;
+}
+
+.forInputScore>input:checked + label {
+    border: 1px solid red;
+}
+
+.forInputScore>label{
+    display: inline-block;
+    margin: 0 10px 0 0;
+    border: 1px solid rgb(68, 34, 34);;
+    border-radius: 10px;
+    padding: 7px 15px 7px 15px;
+    cursor: pointer;
+}
+
+.forInputScore>label:hover{
+    background: rgb(134, 69, 69);
+}
+
+#apllyMove{
+    display: inline-block;
 }
 
 .players{
