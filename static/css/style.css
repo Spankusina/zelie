@@ -37,11 +37,6 @@ button:disabled{
     text-align: center;
 }
 
-.forAddPlayer{
-    display: none;
-    /* display: block; */
-}
-
 .inputNamePlayer{
     height: 20px;
     width: 140px;
