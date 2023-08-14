@@ -1,12 +1,15 @@
 class Players {
     constructor(name, totalScore, stringScore) {
         this.name = name
-        this.totalScore = totalScore
+        this.totalScore = parseInt(totalScore)
         this.stringScore = stringScore
     }
 
     accScore(curentScore) {
-        this.totalScore =+ curentScore
+        this.totalScore += parseInt(curentScore)
+        this.blockTotalScore.textContent = this.totalScore
+        this.stringScore === ''? this.stringScore = curentScore : this.stringScore += ', ' + curentScore
+        this.blockScoreBoard.textContent = this.stringScore
     }
 }
 
@@ -16,24 +19,28 @@ const namePlayerInput = document.querySelector('.inputNamePlayer')
 const forAddPlayer = document.querySelector('.forAddPlayer')
 const container = document.querySelector('.container')
 const control = document.querySelector('.control')
-let headerNamePlayer = ''
+let nameCheckboxs, scoreRadio, headerNamePlayer, apllyMoveButton
 let listPlayers = []
 let scoreOptions = [0, 1, 2, 3, 4, 6, 8, 10]
 let playersMove = 0
 
+// Слушаем клик по копке добавления игрока
 addPlayerButton.onclick = () => {
     addPlayer(namePlayerInput.value)
     namePlayerInput.value = ''
     namePlayerInput.focus()
 }
 
+// Слушаем клик по кнопке начала игры
 startGameButton.onclick = () => {
     forAddPlayer.style.display = 'none'
     addScoreControlPanel()
-    headerNamePlayer = document.querySelector('.headerNamePlayer')
+    updateGlobalValues()
+    addEventsButtons()
     preparationForMove()
 }
 
+// Добавляем игрока
 function addPlayer(name) {
     if (!name) {
         return
@@ -52,9 +59,14 @@ function addPlayer(name) {
         `
 
     container.insertAdjacentHTML('beforeend', playerScoreBoard)
+    let idTotalScore = `#pl${listPlayers.length} .totalScore`
+    let idScoreBoard = `#pl${listPlayers.length} .scoreBoard`
+    player.blockTotalScore = document.querySelector(idTotalScore)
+    player.blockScoreBoard = document.querySelector(idScoreBoard)
     checkStatusButtons()
 }
 
+// Делаем доступными кнопки "добавления игрока" и "старт игры" в зависимости от количества игроков
 function checkStatusButtons() {
     if (listPlayers.length === 2) {
         startGameButton.disabled = false
@@ -66,6 +78,7 @@ function checkStatusButtons() {
     }
 }
 
+// После старта игры добавляем панель управления очками
 function addScoreControlPanel(){
     let scoreControlPanel = `  
         <form class="forInputScore">
@@ -91,29 +104,65 @@ function addScoreControlPanel(){
 
     scoreControlPanel += `
         <br>
+        </form>
         <button id="apllyMove">Применить</button>
         <button id="endGame">Закончить игру</button>
-        </form>
     `
-
+    // console.log(scoreControlPanel)
     control.insertAdjacentHTML('beforeend', scoreControlPanel)
 }
 
+// Обновляем глобальные переменные после добавления новых элементов
+function updateGlobalValues(){
+    headerNamePlayer = document.querySelector('.headerNamePlayer')
+    nameCheckboxs = document.querySelectorAll('input[name=Players')
+    scoreRadio = document.querySelectorAll('input[name=Score]')
+    apllyMoveButton = document.querySelector('#apllyMove')
+}
+
+// Добавляем события на клик после добавления новых элементов
+function addEventsButtons(){
+    apllyMoveButton.onclick = () => {
+        processingMove()
+        preparationForMove()
+    }
+}
+
+// Размещаем правильные данные до применения хода
 function preparationForMove(){
-    playersMove <= listPlayers.length ? playersMove += 1 : playersMove = 1
+    playersMove < listPlayers.length ? playersMove += 1 : playersMove = 1
     headerNamePlayer.textContent = listPlayers[playersMove - 1].name
     let playerId = `Player${playersMove}`
-    const checkboxs = document.querySelectorAll('input[name=Players')
 
-    checkboxs.forEach((checkbox) => {
+    nameCheckboxs.forEach((checkbox) => {
         const label = checkbox.nextElementSibling
         if (label && label.style.display === 'none') {
-            checkbox.style.display = "inline-block"
+            label.style.display = "inline-block"
         }
 
         if (label && checkbox.id === playerId) {
             label.style.display = "none"
         }
     })
+}
 
+// Обработка хода
+function processingMove(){
+    let scoreValue
+    for (const score of scoreRadio){
+        if (score.checked){
+            scoreValue = score.value
+            score.checked = false
+            break
+        }
+    }
+    
+    let nameValue = []
+    for (const name of nameCheckboxs){
+        if (name.checked) {
+            nameValue.push(name.value)
+        }
+    }
+
+    listPlayers[playersMove - 1].accScore(scoreValue)
 }

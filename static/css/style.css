@@ -37,6 +37,7 @@ button:disabled{
     text-align: center;
 }
 
+/* Панель управления */
 .inputNamePlayer{
     height: 20px;
     width: 140px;
@@ -56,7 +57,7 @@ button:disabled{
 }
 
 .forInputScore>input{
-    visibility: hidden;
+    display: none;
 }
 
 .forInputScore>input:checked + label {
@@ -66,7 +67,8 @@ button:disabled{
 .forInputScore>label{
     display: inline-block;
     margin: 0 10px 0 0;
-    border: 1px solid rgb(68, 34, 34);;
+    border: 1px solid;
+    border-color: transparent;
     border-radius: 10px;
     padding: 7px 15px 7px 15px;
     cursor: pointer;
@@ -76,10 +78,7 @@ button:disabled{
     background: rgb(134, 69, 69);
 }
 
-#apllyMove{
-    display: inline-block;
-}
-
+/* Поле очков */
 .players{
     display: flex;
     height: 100px;
