@@ -97,7 +97,7 @@ function addScoreControlPanel(){
     listPlayers.forEach((player) => {
         numberPlayer += 1
         scoreControlPanel += `
-        <input type="checkbox" id="Player${numberPlayer}" name="Players" value="Player${numberPlayer}">
+        <input type="checkbox" id="Player${numberPlayer}" name="Players" value="${numberPlayer}">
         <label for="Player${numberPlayer}">${player.name}</label>
         `
     })
@@ -151,18 +151,17 @@ function processingMove(){
     let scoreValue
     for (const score of scoreRadio){
         if (score.checked){
+            listPlayers[playersMove - 1].accScore(score.value)
             scoreValue = score.value
             score.checked = false
             break
         }
     }
     
-    let nameValue = []
     for (const name of nameCheckboxs){
         if (name.checked) {
-            nameValue.push(name.value)
+            listPlayers[name.value - 1].accScore(scoreValue / 2)
+            name.checked = false
         }
     }
-
-    listPlayers[playersMove - 1].accScore(scoreValue)
 }
