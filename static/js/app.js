@@ -19,7 +19,7 @@ const namePlayerInput = document.querySelector('.inputNamePlayer')
 const forAddPlayer = document.querySelector('.forAddPlayer')
 const container = document.querySelector('.container')
 const control = document.querySelector('.control')
-let nameCheckboxs, scoreRadio, headerNamePlayer, apllyMoveButton
+let nameCheckboxs, scoreRadio, headerNamePlayer, apllyMoveButton, formInputScore
 let listPlayers = []
 let scoreOptions = [0, 1, 2, 3, 4, 6, 8, 10]
 let playersMove = 0
@@ -36,7 +36,7 @@ startGameButton.onclick = () => {
     forAddPlayer.style.display = 'none'
     addScoreControlPanel()
     updateGlobalValues()
-    addEventsButtons()
+    addEvents()
     preparationForMove()
 }
 
@@ -59,10 +59,8 @@ function addPlayer(name) {
         `
 
     container.insertAdjacentHTML('beforeend', playerScoreBoard)
-    let idTotalScore = `#pl${listPlayers.length} .totalScore`
-    let idScoreBoard = `#pl${listPlayers.length} .scoreBoard`
-    player.blockTotalScore = document.querySelector(idTotalScore)
-    player.blockScoreBoard = document.querySelector(idScoreBoard)
+    player.blockTotalScore = document.querySelector(`#pl${listPlayers.length} .totalScore`)
+    player.blockScoreBoard = document.querySelector(`#pl${listPlayers.length} .scoreBoard`)
     checkStatusButtons()
 }
 
@@ -97,8 +95,8 @@ function addScoreControlPanel(){
     listPlayers.forEach((player) => {
         numberPlayer += 1
         scoreControlPanel += `
-        <input type="checkbox" id="Player${numberPlayer}" name="Players" value="${numberPlayer}">
-        <label for="Player${numberPlayer}">${player.name}</label>
+        <input type="checkbox" disabled id="Player${numberPlayer}" name="Players" value="${numberPlayer}">
+        <label class="disabled" for="Player${numberPlayer}">${player.name}</label>
         `
     })
 
@@ -106,9 +104,8 @@ function addScoreControlPanel(){
         <br>
         </form>
         <button id="apllyMove">Применить</button>
-        <button id="endGame">Закончить игру</button>
     `
-    // console.log(scoreControlPanel)
+
     control.insertAdjacentHTML('beforeend', scoreControlPanel)
 }
 
@@ -118,13 +115,63 @@ function updateGlobalValues(){
     nameCheckboxs = document.querySelectorAll('input[name=Players')
     scoreRadio = document.querySelectorAll('input[name=Score]')
     apllyMoveButton = document.querySelector('#apllyMove')
+    formInputScore = document.querySelector('.forInputScore')
 }
 
 // Добавляем события на клик после добавления новых элементов
-function addEventsButtons(){
+function addEvents(){
     apllyMoveButton.onclick = () => {
         processingMove()
         preparationForMove()
+    }
+
+    formInputScore.addEventListener('input', function(event) {
+        const inputElement = event.target;
+        console.log(`Value changed for element ${inputElement.name}: ${inputElement.value}`);
+        if (inputElement.name === 'Score'){
+            if (apllyMoveButton.disabled){
+                apllyMoveButton.disabled = false
+            }
+
+            if (parseInt(inputElement.value) > 3) {
+                toggleAvailabilityCheckboxs(true)
+            }
+            else {
+                toggleAvailabilityCheckboxs(false)
+            }
+        }
+    })
+}
+
+//Переключаем доступность имен для выбора доп очков
+function toggleAvailabilityCheckboxs(available) {
+    if (available){
+        nameCheckboxs.forEach(name => {
+            if (name.disabled) {
+                name.disabled = false
+            }                
+
+            const label = name.nextElementSibling
+            if (label.classList.contains("disabled")){
+                label.classList.remove("disabled")
+            }
+        })
+    }
+    else{
+        nameCheckboxs.forEach(name => {
+            if (!name.disabled) {
+                name.disabled = true
+            }                
+
+            if (name.checked) {
+                name.checked = false
+            }
+
+            const label = name.nextElementSibling
+            if (!label.classList.contains("disabled")){
+                label.classList.add("disabled")
+            }
+        })
     }
 }
 
@@ -134,16 +181,19 @@ function preparationForMove(){
     headerNamePlayer.textContent = listPlayers[playersMove - 1].name
     let playerId = `Player${playersMove}`
 
-    nameCheckboxs.forEach((checkbox) => {
-        const label = checkbox.nextElementSibling
+    nameCheckboxs.forEach((name) => {
+        const label = name.nextElementSibling
         if (label && label.style.display === 'none') {
             label.style.display = "inline-block"
         }
 
-        if (label && checkbox.id === playerId) {
+        if (label && name.id === playerId) {
             label.style.display = "none"
         }
     })
+
+    apllyMoveButton.disabled = true
+    toggleAvailabilityCheckboxs(false)
 }
 
 // Обработка хода

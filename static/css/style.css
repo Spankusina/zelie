@@ -78,6 +78,15 @@ button:disabled{
     background: rgb(134, 69, 69);
 }
 
+.forInputScore>input:disabled + label:hover{
+    background: transparent;
+    cursor: default;
+}
+
+.disabled{
+    color: rgb(177, 177, 177);
+}
+
 /* Поле очков */
 .players{
     display: flex;
@@ -85,7 +94,7 @@ button:disabled{
     border: 1px solid black;
     border-radius: 10px;
     margin-top: 10px;
-    margin-left: 1%;
+    margin-inline: auto;
 }
 
 #pl1{
@@ -146,7 +155,12 @@ button:disabled{
 }
 
 @media (max-width: 700px) {
+    .forInputScore>label{
+        margin: 0;
+    }
+
     .players{
+        width: 90%;
         height: auto;
         flex-direction: column;
     }
