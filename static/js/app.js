@@ -1,11 +1,11 @@
 class Players {
-    constructor(name, totalScore, stringScore) {
+    constructor(name, totalScore = 0, stringScore = "") {
         this.name = name
         this.totalScore = parseInt(totalScore)
         this.stringScore = stringScore
     }
 
-    accScore(curentScore) {
+    updateScore(curentScore) {
         this.totalScore += parseInt(curentScore)
         this.blockTotalScore.textContent = this.totalScore
         this.stringScore === ''? this.stringScore = curentScore : this.stringScore += ', ' + curentScore
@@ -46,7 +46,7 @@ function addPlayer(name) {
         return
     }
 
-    const player = new Players(name, 0, '')
+    const player = new Players(name)
     listPlayers.push(player)
     let playerScoreBoard = `
         <div class="players" id="pl${listPlayers.length}">
@@ -127,7 +127,6 @@ function addEvents(){
 
     formInputScore.addEventListener('input', function(event) {
         const inputElement = event.target;
-        console.log(`Value changed for element ${inputElement.name}: ${inputElement.value}`);
         if (inputElement.name === 'Score'){
             if (apllyMoveButton.disabled){
                 apllyMoveButton.disabled = false
@@ -201,7 +200,7 @@ function processingMove(){
     let scoreValue
     for (const score of scoreRadio){
         if (score.checked){
-            listPlayers[playersMove - 1].accScore(score.value)
+            listPlayers[playersMove - 1].updateScore(score.value)
             scoreValue = score.value
             score.checked = false
             break
@@ -210,7 +209,7 @@ function processingMove(){
     
     for (const name of nameCheckboxs){
         if (name.checked) {
-            listPlayers[name.value - 1].accScore(scoreValue / 2)
+            listPlayers[name.value - 1].updateScore(scoreValue / 2)
             name.checked = false
         }
     }

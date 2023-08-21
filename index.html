@@ -10,16 +10,32 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" id="app">
         <div class="control">
             <div class="forAddPlayer">
-                <input autofocus class="inputNamePlayer" />
-                <button id="addPlayer">Добавить игрока</button>
-                <button disabled id="startGame">Начать игру</button>
+                <input autofocus class="inputNamePlayer"
+                       v-bind:disabled="listPlayers.length > 3" 
+                       v-bind:value="inputNameValue" 
+                       v-on:input="inputNameChangeHandler" 
+                       v-on:keypress="inputNameKeyPress"
+                />
+                <button id="addPlayer" v-bind:disabled="listPlayers.length > 3" v-on:click="addNewPlayer">Добавить игрока</button>
+                <button v-bind:disabled="listPlayers.length < 2" id="startGame">Начать игру</button>
+            </div>
+        </div>
+
+        <div v-for="player in listPlayers">
+            <div class="players" v-bind:id="'pl' + (listPlayers.indexOf(player) + 1)">
+                <div class="forNamePlayers">
+                    <p class="namePlayers">{{ player }}</p>
+                    <p class="totalScore">0</p>
+                </div>
+                <p class="scoreBoard"></p>
             </div>
         </div>
     </div>
 
-    <script src="static/js/app.js"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="static/js/appVue.js"></script>
 </body>
 </html>
