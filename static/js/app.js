@@ -1,15 +1,13 @@
 class Players {
     constructor(name, totalScore, stringScore) {
         this.name = name
-        this.totalScore = parseInt(totalScore)
+        this.totalScore = totalScore
         this.stringScore = stringScore
     }
 
-    accScore(curentScore) {
-        this.totalScore += parseInt(curentScore)
-        this.blockTotalScore.textContent = this.totalScore
-        this.stringScore === ''? this.stringScore = curentScore : this.stringScore += ', ' + curentScore
-        this.blockScoreBoard.textContent = this.stringScore
+    updateScore(curentScore) {
+        this.totalScore.textContent = parseInt(this.totalScore.textContent) + parseInt(curentScore)
+        this.stringScore.textContent === ''? this.stringScore.textContent = curentScore : this.stringScore.textContent += ', ' + curentScore
     }
 }
 
@@ -46,12 +44,11 @@ function addPlayer(name) {
         return
     }
 
-    const player = new Players(name, 0, '')
-    listPlayers.push(player)
+    const playersSerialNumber = listPlayers.length + 1
     let playerScoreBoard = `
-        <div class="players" id="pl${listPlayers.length}">
+        <div class="players" id="pl${playersSerialNumber}">
             <div class="forNamePlayers">
-                <p class="namePlayers">${player.name}</p>
+                <p class="namePlayers">${name}</p>
                 <p class="totalScore">0</p>
             </div>
             <p class="scoreBoard"></p>
@@ -59,8 +56,10 @@ function addPlayer(name) {
         `
 
     container.insertAdjacentHTML('beforeend', playerScoreBoard)
-    player.blockTotalScore = document.querySelector(`#pl${listPlayers.length} .totalScore`)
-    player.blockScoreBoard = document.querySelector(`#pl${listPlayers.length} .scoreBoard`)
+
+    const player = new Players(name, document.querySelector(`#pl${playersSerialNumber} .totalScore`), document.querySelector(`#pl${playersSerialNumber} .scoreBoard`))
+    listPlayers.push(player)
+
     checkStatusButtons()
 }
 
@@ -127,7 +126,6 @@ function addEvents(){
 
     formInputScore.addEventListener('input', function(event) {
         const inputElement = event.target;
-        console.log(`Value changed for element ${inputElement.name}: ${inputElement.value}`);
         if (inputElement.name === 'Score'){
             if (apllyMoveButton.disabled){
                 apllyMoveButton.disabled = false
@@ -201,7 +199,7 @@ function processingMove(){
     let scoreValue
     for (const score of scoreRadio){
         if (score.checked){
-            listPlayers[playersMove - 1].accScore(score.value)
+            listPlayers[playersMove - 1].updateScore(score.value)
             scoreValue = score.value
             score.checked = false
             break
@@ -210,7 +208,7 @@ function processingMove(){
     
     for (const name of nameCheckboxs){
         if (name.checked) {
-            listPlayers[name.value - 1].accScore(scoreValue / 2)
+            listPlayers[name.value - 1].updateScore(scoreValue / 2)
             name.checked = false
         }
     }
