@@ -81,13 +81,13 @@ button:disabled{
     background: rgb(134, 69, 69);
 }
 
+.forInputScore>div>input:disabled + label{
+    color: rgb(177, 177, 177);
+}
+
 .forInputScore>div>input:disabled + label:hover{
     background: transparent;
     cursor: default;
-}
-
-.disabled{
-    color: rgb(177, 177, 177);
 }
 
 /* Поле очков */

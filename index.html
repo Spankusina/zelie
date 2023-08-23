@@ -14,36 +14,33 @@
         <div class="control">
             <div class="forAddPlayer" v-if="!isGameStarted">
                 <input autofocus class="inputNamePlayer"
-                       v-bind:disabled="listPlayers.length > 3" 
-                       v-bind:value="inputNameValue" 
-                       v-on:input="inputNameChangeHandler" 
-                       v-on:keypress.enter="addNewPlayer"
+                       :disabled="listPlayers.length > 3" 
+                       v-model="inputNameValue" 
+                       @keypress.enter="addNewPlayer"
                 />
-                <button id="addPlayer" v-bind:disabled="listPlayers.length > 3" v-on:click="addNewPlayer">Добавить игрока</button>
-                <button v-bind:disabled="listPlayers.length < 2" id="startGame" v-on:click="startGame">Начать игру</button>
+                <button id="addPlayer" v-bind:disabled="listPlayers.length > 3" @click="addNewPlayer">Добавить игрока</button>
+                <button v-bind:disabled="listPlayers.length < 2" id="startGame" @click="startGame">Начать игру</button>
             </div>
 
             <div v-else>
                 <form class="forInputScore">
                     <h2>Ход игрока: <span class="headerNamePlayer">{{ playerTurn }}</span></h2>
                     <div v-for="option in scoreOptions">
-                        <input type="radio" v-bind:id="'Score' + option" name="Score" v-bind:value="option">
-                        <label v-bind:for="'Score' + option">{{ option }}</label>
+                        <input type="radio" :id="'Score' + option" name="Score" :value="option" v-model="inputScore">
+                        <label :for="'Score' + option">{{ option }}</label>
                     </div>
                     <h2>Добавить очки игроку:</h2>
-                    <div v-for="(player, index) in listPlayers">
-                        <input type="checkbox" v-bind:id="'Player' + (index + 1)" name="Players" v-bind:value="index + 1">
-                        <label v-bind:for="'Player' + (index + 1)">{{ player }}</label>
+                    <div v-for="(player, index) in listPlayers" :style="{ display: player === playerTurn ? 'none' : 'inline-block' }">
+                        <input :disabled="isDisabledExtraScore" type="checkbox" :id="'Player' + (index + 1)" name="Players" :value="player">
+                        <label :for="'Player' + (index + 1)">{{ player }}</label>
                     </div>
                 </form>
-                <br>
-    
-                <button id="apllyMove">Применить</button>
+                <button :disabled="inputScore === ''" id="apllyMove" @click="updateScore">Применить</button>
             </div>
         </div>
 
-        <div v-for="player in listPlayers">
-            <div class="players" v-bind:id="'pl' + (listPlayers.indexOf(player) + 1)">
+        <div v-for="(player, index) in listPlayers">
+            <div class="players" :id="'pl' + (index + 1)">
                 <div class="forNamePlayers">
                     <p class="namePlayers">{{ player }}</p>
                     <p class="totalScore">0</p>
