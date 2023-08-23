@@ -12,15 +12,33 @@
 <body>
     <div class="container" id="app">
         <div class="control">
-            <div class="forAddPlayer">
+            <div class="forAddPlayer" v-if="!isGameStarted">
                 <input autofocus class="inputNamePlayer"
                        v-bind:disabled="listPlayers.length > 3" 
                        v-bind:value="inputNameValue" 
                        v-on:input="inputNameChangeHandler" 
-                       v-on:keypress="inputNameKeyPress"
+                       v-on:keypress.enter="addNewPlayer"
                 />
                 <button id="addPlayer" v-bind:disabled="listPlayers.length > 3" v-on:click="addNewPlayer">Добавить игрока</button>
-                <button v-bind:disabled="listPlayers.length < 2" id="startGame">Начать игру</button>
+                <button v-bind:disabled="listPlayers.length < 2" id="startGame" v-on:click="startGame">Начать игру</button>
+            </div>
+
+            <div v-else>
+                <form class="forInputScore">
+                    <h2>Ход игрока: <span class="headerNamePlayer">{{ playerTurn }}</span></h2>
+                    <div v-for="option in scoreOptions">
+                        <input type="radio" v-bind:id="'Score' + option" name="Score" v-bind:value="option">
+                        <label v-bind:for="'Score' + option">{{ option }}</label>
+                    </div>
+                    <h2>Добавить очки игроку:</h2>
+                    <div v-for="(player, index) in listPlayers">
+                        <input type="checkbox" v-bind:id="'Player' + (index + 1)" name="Players" v-bind:value="index + 1">
+                        <label v-bind:for="'Player' + (index + 1)">{{ player }}</label>
+                    </div>
+                </form>
+                <br>
+    
+                <button id="apllyMove">Применить</button>
             </div>
         </div>
 

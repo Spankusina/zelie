@@ -3,7 +3,10 @@ const App = {
         return {
             inputNameDisabled: false,
             listPlayers: [],
-            inputNameValue: ''
+            inputNameValue: '',
+            scoreOptions: [0, 1, 2, 3, 4, 6, 8, 10],
+            isGameStarted: false,
+            playerTurn: ''
         }
     },
     methods: {
@@ -11,13 +14,14 @@ const App = {
             this.inputNameValue = event.target.value
         },
         addNewPlayer() {
-            this.listPlayers.push(this.inputNameValue)
+            if (this.inputNameValue != ''){
+                this.listPlayers.push(this.inputNameValue)
+            }
             this.inputNameValue = ''
         },
-        inputNameKeyPress(event) {
-            if (event.key === 'Enter') {
-                this.addNewPlayer()
-            }
+        startGame() {
+            this.playerTurn = this.listPlayers[0]
+            this.isGameStarted = true
         }
     }
 }

@@ -56,16 +56,19 @@ button:disabled{
     padding: 10px 0 15px 0;
 }
 
-.forInputScore>input{
+.forInputScore>div>input{
     display: none;
 }
 
-.forInputScore>input:checked + label {
+.forInputScore>div>input:checked + label {
     border: 1px solid red;
 }
 
-.forInputScore>label{
+.forInputScore>div{
     display: inline-block;
+}
+
+.forInputScore>div>label{
     margin: 0 10px 0 0;
     border: 1px solid;
     border-color: transparent;
@@ -74,11 +77,11 @@ button:disabled{
     cursor: pointer;
 }
 
-.forInputScore>label:hover{
+.forInputScore>div>label:hover{
     background: rgb(134, 69, 69);
 }
 
-.forInputScore>input:disabled + label:hover{
+.forInputScore>div>input:disabled + label:hover{
     background: transparent;
     cursor: default;
 }
