@@ -10,10 +10,11 @@
 </head>
 
 <body>
-    <div class="container" id="app">
+    <div class="container" id="app" v-cloak>
         <div class="control">
             <div class="forAddPlayer" v-if="!isGameStarted">
                 <input autofocus class="inputNamePlayer"
+                       ref="inputFocus"
                        :disabled="listPlayers.length > 3" 
                        v-model="inputNameValue" 
                        @keypress.enter="addNewPlayer"
@@ -24,15 +25,15 @@
 
             <div v-else>
                 <form class="forInputScore">
-                    <h2>Ход игрока: <span class="headerNamePlayer">{{ playerTurn }}</span></h2>
+                    <h2>Ход игрока: <span class="headerNamePlayer">{{ listPlayers[indexPlayerTurn].name }}</span></h2>
                     <div v-for="option in scoreOptions">
                         <input type="radio" :id="'Score' + option" name="Score" :value="option" v-model="inputScore">
                         <label :for="'Score' + option">{{ option }}</label>
                     </div>
                     <h2>Добавить очки игроку:</h2>
-                    <div v-for="(player, index) in listPlayers" :style="{ display: player === playerTurn ? 'none' : 'inline-block' }">
-                        <input :disabled="isDisabledExtraScore" type="checkbox" :id="'Player' + (index + 1)" name="Players" :value="player">
-                        <label :for="'Player' + (index + 1)">{{ player }}</label>
+                    <div v-for="(player, index) in listPlayers" :style="{ display: index === indexPlayerTurn ? 'none' : 'inline-block' }">
+                        <input :disabled="isDisabledExtraScore" type="checkbox" :id="'Player' + (index + 1)" name="Players" :value="index" v-model="inputPlayersForExtraScore">
+                        <label :for="'Player' + (index + 1)">{{ player.name }}</label>
                     </div>
                 </form>
                 <button :disabled="inputScore === ''" id="apllyMove" @click="updateScore">Применить</button>
@@ -42,10 +43,10 @@
         <div v-for="(player, index) in listPlayers">
             <div class="players" :id="'pl' + (index + 1)">
                 <div class="forNamePlayers">
-                    <p class="namePlayers">{{ player }}</p>
-                    <p class="totalScore">0</p>
+                    <p class="namePlayers">{{ player.name }}</p>
+                    <p class="totalScore">{{ player.totalScore }}</p>
                 </div>
-                <p class="scoreBoard"></p>
+                <p class="scoreBoard">{{ player.stringScore }}</p>
             </div>
         </div>
     </div>
