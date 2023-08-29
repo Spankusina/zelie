@@ -29,7 +29,14 @@ const App = {
         },
         updateScore() {
             this.listPlayers[this.indexPlayerTurn].totalScore += this.inputScore
-            this.listPlayers[this.indexPlayerTurn].stringScore = this.listPlayers[this.indexPlayerTurn].stringScore ? this.listPlayers[this.indexPlayerTurn].stringScore + `, ${this.inputScore}` : this.inputScore
+      
+            if (this.listPlayers[this.indexPlayerTurn].stringScore.length){
+                this.listPlayers[this.indexPlayerTurn].stringScore = this.inputScore
+            }
+            else {
+                this.listPlayers[this.indexPlayerTurn].stringScore += `, ${this.inputScore}`
+            }
+
             this.indexPlayerTurn = this.indexPlayerTurn < this.listPlayers.length - 1 ? this.indexPlayerTurn + 1 : 0
 
             this.inputPlayersForExtraScore.forEach(index => {

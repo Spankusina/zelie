@@ -41,6 +41,10 @@ button:disabled{
     text-align: center;
 }
 
+footer {
+    padding-bottom: 50px;
+}
+
 /* Панель управления */
 .inputNamePlayer{
     height: 20px;
@@ -162,7 +166,7 @@ button:disabled{
 }
 
 @media (max-width: 700px) {
-    .forInputScore>label{
+    .forInputScore>div>label{
         margin: 0;
     }
 
