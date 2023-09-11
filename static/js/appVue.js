@@ -8,7 +8,8 @@ const App = {
             inputScore: '',
             isGameStarted: false,
             isDisabledExtraScore: true,
-            indexPlayerTurn: 0
+            indexPlayerTurn: 0,
+            currentScore: 0
         }
     },
     methods: {
@@ -28,7 +29,7 @@ const App = {
             this.isGameStarted = true
         },
         updateScore() {
-            this.listPlayers[this.indexPlayerTurn].totalScore += this.inputScore
+            this.animateNumber(this.listPlayers[this.indexPlayerTurn], (this.listPlayers[this.indexPlayerTurn].totalScore + this.inputScore))
       
             if (!this.listPlayers[this.indexPlayerTurn].stringScore.length){
                 this.listPlayers[this.indexPlayerTurn].stringScore = `${this.inputScore}`
@@ -40,7 +41,7 @@ const App = {
             this.indexPlayerTurn = this.indexPlayerTurn < this.listPlayers.length - 1 ? this.indexPlayerTurn + 1 : 0
 
             this.inputPlayersForExtraScore.forEach(index => {
-                this.listPlayers[index].totalScore += this.inputScore / 2
+                this.animateNumber(this.listPlayers[index], (this.listPlayers[index].totalScore + this.inputScore / 2))
                 this.listPlayers[index].stringScore = this.listPlayers[index].stringScore ? this.listPlayers[index].stringScore + `, ${this.inputScore / 2}` : `${this.inputScore / 2}`
             })
             
@@ -48,18 +49,27 @@ const App = {
             if (this.inputPlayersForExtraScore.length){
                 this.inputPlayersForExtraScore.splice(0, this.inputPlayersForExtraScore.length)
             }
+        },
+        animateNumber(currentPlayer, newScore) {
+            gsap.to(currentPlayer,  {
+                totalScore: newScore,
+                duration: 0.5, 
+                onUpdate: () => {
+                    currentPlayer.totalScore = Number(currentPlayer.totalScore.toFixed(0))
+                }
+            })
         }
     },
     watch: {
         inputScore(value) {
-            if (!value || (value) < 4) {
+            if (!value || value < 4) { // посмотреть что приходит
                 this.isDisabledExtraScore = true
                 this.inputPlayersForExtraScore.splice(0, this.inputPlayersForExtraScore.length)
             }
             else {
                 this.isDisabledExtraScore = false
             }
-        }
+        },
     }
 }
 
