@@ -14,7 +14,7 @@ const App = {
     },
     methods: {
         addNewPlayer() {
-            if (this.inputNameValue && !this.listPlayers.includes(this.inputNameValue)){
+            if (this.inputNameValue && !this.listPlayers.some(player => player.name === this.inputNameValue)  ){
                 const newPlayer = {
                     name: this.inputNameValue,
                     totalScore: 0,
@@ -62,7 +62,8 @@ const App = {
     },
     watch: {
         inputScore(value) {
-            if (!value || value < 4) { // посмотреть что приходит
+            console.log(value)
+            if (!value || value < 4) {
                 this.isDisabledExtraScore = true
                 this.inputPlayersForExtraScore.splice(0, this.inputPlayersForExtraScore.length)
             }
