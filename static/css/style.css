@@ -58,7 +58,7 @@ footer {
     color: rgb(127, 255, 176);
 }
 
-.forInputScore>h2{
+.forInputScore>legend{
     font-size: 20px;
     font-weight: bold;
     padding: 10px 0 15px 0;

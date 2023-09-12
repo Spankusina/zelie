@@ -24,17 +24,21 @@
             </div>
 
             <div v-else>
-                <form class="forInputScore">
-                    <h2>Ход игрока: <span class="headerNamePlayer">{{ listPlayers[indexPlayerTurn].name }}</span></h2>
-                    <div v-for="option in scoreOptions">
-                        <input type="radio" :id="'Score' + option" name="Score" :value="option" v-model="inputScore">
-                        <label :for="'Score' + option">{{ option }}</label>
-                    </div>
-                    <h2>Добавить очки игроку:</h2>
-                    <div v-for="(player, index) in listPlayers" :style="{ display: index === indexPlayerTurn ? 'none' : 'inline-block' }">
-                        <input :disabled="isDisabledExtraScore" type="checkbox" :id="'Player' + (index + 1)" name="Players" :value="index" v-model="inputPlayersForExtraScore">
-                        <label :for="'Player' + (index + 1)">{{ player.name }}</label>
-                    </div>
+                <form>
+                    <fieldset class="forInputScore">
+                        <legend>Ход игрока: {{ listPlayers[indexPlayerTurn].name }}</legend>
+                        <div v-for="option in scoreOptions">
+                            <input type="radio" :id="'Score' + option" name="Score" :value="option" v-model="inputScore">
+                            <label :for="'Score' + option">{{ option }}</label>
+                        </div>
+                    </fieldset>
+                    <fieldset class="forInputScore" :disabled="isDisabledExtraScore">
+                        <legend>Добавить очки игроку:</legend>
+                        <div v-for="(player, index) in listPlayers" :style="{ display: index === indexPlayerTurn ? 'none' : 'inline-block' }">
+                            <input type="checkbox" :id="'Player' + (index + 1)" name="Players" :value="index" v-model="inputPlayersForExtraScore">
+                            <label :for="'Player' + (index + 1)">{{ player.name }}</label>
+                        </div>
+                    </fieldset>
                 </form>
                 <button :disabled="inputScore === ''" id="apllyMove" @click="updateScore">Применить</button>
             </div>
